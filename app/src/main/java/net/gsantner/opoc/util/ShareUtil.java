@@ -1092,17 +1092,18 @@ public class ShareUtil {
             return dof;
         }
         String[] parts = relPath.split("\\/");
-        for (int i = 0; i < parts.length; i++) {
-            DocumentFile nextDof = dof.findFile(parts[i]);
-            if (nextDof == null) {
-                try {
-                    nextDof = ((i < parts.length - 1) || isDir) ? dof.createDirectory(parts[i]) : dof.createFile("image", parts[i]);
-                } catch (Exception ignored) {
-                    nextDof = null;
-                }
+        DocumentFile nextDof = dof.findFile(parts[parts.length-1]);
+//        for (int i = 0; i < parts.length; i++) {
+//            DocumentFile nextDof = dof.findFile(parts[i]);
+        if (nextDof == null) {
+            try {
+                nextDof = isDir ? dof.createDirectory(parts[parts.length-1]) : dof.createFile("image", parts[parts.length-1]);
+            } catch (Exception ignored) {
+                nextDof = null;
             }
-            dof = nextDof;
         }
+        dof = nextDof;
+//        }
         return dof;
     }
 
